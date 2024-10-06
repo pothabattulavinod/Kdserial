@@ -23,12 +23,18 @@
             height: 100% !important;
         }
 
+        /* Change progress bar (timer) color */
         .jwplayer .jw-progress {
-            background-color: #FF0000;
+            background-color: #ff6347;
+        }
+
+        /* Change color of the current time and duration display */
+        .jwplayer .jw-text-time {
+            color: #ff6347 !important;
         }
 
         button:hover {
-            background: #FF0000 !important;
+            background: #ff6347 !important;
         }
 
         .jw-icon-forward {
@@ -51,10 +57,9 @@
         document.addEventListener("DOMContentLoaded", function () {
             var playerInstance = jwplayer("player");
 
-            // Set up JW Player with a single URL and a poster image
+            // Set up JW Player without preloading
             playerInstance.setup({
                 aspectratio: "16:9",
-                preload: 'auto',
                 primary: 'html5',
                 sources: [{
                     file: "https://58a49ee706238.streamlock.net:8485/uploads/jio_1720328/2e9597224f39565bf4bd57aa86eeebd4.mp4/index.m3u8"
@@ -74,34 +79,15 @@
                 image: 'https://images.filmibeat.com/webp/te/img/2024/08/karthika-deepam-2-8832-1723999553.jpg' // Poster image URL
             });
 
-            // Save and restore playback time on ready
-            playerInstance.on('ready', function () {
-                var lastTimeKey = 'jwplayer-last-time';
-                var lastTime = localStorage.getItem(lastTimeKey);
-                if (lastTime) {
-                    playerInstance.seek(parseFloat(lastTime));
-                }
-
-                playerInstance.addButton(
-                    'https://www.kindpng.com/picc/b/79-797059_forward-icon-png.png',
-                    'Forward 10 seconds',
-                    function () {
-                        playerInstance.seek(playerInstance.getPosition() + 10);
-                    },
-                    'forward10'
-                );
-            });
-
-            // Save the current playback position when the video is paused
-            playerInstance.on('pause', function () {
-                var lastTimeKey = 'jwplayer-last-time';
-                localStorage.setItem(lastTimeKey, playerInstance.getPosition());
-            });
-
-            // Reset the last playback position when the video is complete
-            playerInstance.on('complete', function () {
-                localStorage.setItem('jwplayer-last-time', 0);
-            });
+            // Add a custom button to forward the video 10 seconds
+            playerInstance.addButton(
+                'https://www.kindpng.com/picc/b/79-797059_forward-icon-png.png',
+                'Forward 10 seconds',
+                function () {
+                    playerInstance.seek(playerInstance.getPosition() + 10);
+                },
+                'forward10'
+            );
         });
     </script>
 
